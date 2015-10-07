@@ -70,15 +70,12 @@
         */
         
         NSString *urlString =  @"https://api.instagram.com/oauth/authorize/?"
-"client_id=1b7349d77eb1421f9529a4728d201639&"
-        "client_secret=d7663572df134539813ec5845fd146ea&"
-        "grant_type=authorization_code&"
-        "redirect_uri=http://mydomain.com/NeverGonnaFindMe/"
-        "code=" //will CODE
+                                "client_id=1b7349d77eb1421f9529a4728d201639&"
+                                "client_secret=d7663572df134539813ec5845fd146ea&"
+                                "grant_type=authorization_code&"
+                                "redirect_uri=http://mydomain.com/NeverGonnaFindMe/"
+                                "code=" //will CODE
         
-        
-        
-        "%@/?client_id=%@&redirect_uri=%@&scope=%@&response_type=token&display=touch"
         
         
         
