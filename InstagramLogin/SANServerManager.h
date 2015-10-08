@@ -8,10 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class SANUser;
+@class SANTag;
+
+@protocol XXX;
 
 @interface SANServerManager : NSObject
 
-- (void)authorizeUser:(void(^)(SANUser *user))completion;
+@property (nonatomic, strong) NSMutableArray *tagArray;
+@property (nonatomic, weak) id<XXX> delegate;
+
+- (void)authorizeUser:(void(^)(SANTag *user))completion;
+
+@end
+
+@protocol XXX
+
+- (void) rel:(NSArray *)array;
 
 @end

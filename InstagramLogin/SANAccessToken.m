@@ -8,6 +8,24 @@
 
 #import "SANAccessToken.h"
 
+@interface SANAccessToken ()
+
+@property (nonatomic, strong) NSString *token;
+
+@end
+
 @implementation SANAccessToken
+
+- (instancetype)initWithToken:(NSString *)token {
+    self = [super init];
+    if (self) {
+        self.token = token;
+    }
+    return self;
+}
+
+- (NSString *)getToken {
+    return self.token;
+}
 
 @end

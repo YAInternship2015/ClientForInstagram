@@ -10,8 +10,7 @@
 
 @interface SANAccessToken : NSObject
 
-@property (nonatomic, strong) NSString *token;
-@property (nonatomic, strong) NSDate *expirationDate;
-@property (nonatomic, strong) NSString *userID;
+- (instancetype)initWithToken:(NSString *)token;
+- (NSString *)getToken;
 
 @end
