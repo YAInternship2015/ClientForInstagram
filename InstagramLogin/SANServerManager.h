@@ -8,21 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class SANTag;
-
-@protocol XXX;
-
 @interface SANServerManager : NSObject
 
-@property (nonatomic, strong) NSMutableArray *tagArray;
-@property (nonatomic, weak) id<XXX> delegate;
-
-- (void)authorizeUser:(void(^)(SANTag *user))completion;
-
+- (void)getTagsDictionary:(void(^)(NSDictionary *tags))tagsBlock
+                onFailure:(void(^)(NSError* error, NSInteger statusCode))failure;
 @end
 
-@protocol XXX
-
-- (void) rel:(NSArray *)array;
-
-@end

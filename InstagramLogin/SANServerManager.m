@@ -7,122 +7,79 @@
 //
 
 #import "SANServerManager.h"
-#import "SANTag.h"
 #import "SANLoginViewController.h"
-#import "SANAccessToken.h"
 #import "AFNetworking.h"
 
 @interface SANServerManager()
 
-@property (nonatomic, strong) SANAccessToken *accessToken;
+@property (nonatomic, strong) NSString *accessToken;
+@property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
 @end
 
 @implementation SANServerManager
 
-- (void)authorizeUser:(void(^)(SANTag *tag))completion {
-    SANLoginViewController *loginViewController = [[SANLoginViewController alloc] initWithCompletionBlock:^(SANAccessToken *token) {
+static NSString *const kTags  = @"michaeljackson";
+static NSString *const kTagsCount  = @"30";
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.manager = [AFHTTPRequestOperationManager manager];
+    }
+    return self;
+}
+
+- (void)authorizeUser:(void(^)())success {
+    NSString *fullAuthUrlString =
+    [[NSString alloc] initWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code",
+                                   kAuthUrlString, kClientID, kRedirectUri];
+    
+    SANLoginViewController *loginViewController =
+    [[SANLoginViewController alloc] initWithAuthorizeUrlString:fullAuthUrlString
+                                               completionBlock:^(NSString *token) {
         self.accessToken = token;
-        
-        if (token) {
-            [self getTagWithToken:self.accessToken
-                        onSuccess:^(SANTag *tag) {
-                            if (completion) {
-                                completion(tag);
-                            }
-            }
-                        onFailure:^(NSError *error, NSInteger statusCode) {
-                            if (completion) {
-                                completion(nil);
-                            }
-            }];
-        }
+        success();
     }];
-    loginViewController.view.backgroundColor = [UIColor cyanColor];
+    
     UIViewController *mainVC = [[[[UIApplication sharedApplication] windows] firstObject] rootViewController];
     
     [mainVC presentViewController:loginViewController animated:YES completion:nil];
-
 }
 
-- (void) getTagWithToken:(SANAccessToken *) token
-    onSuccess:(void(^)(SANTag *tag)) success
-    onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
-    
-        //https://api.instagram.com/v1/tags/{tag-name}?access_token=ACCESS-TOKEN
+- (void)getTagsFromServer:(void(^)(NSDictionary *tagObjects))success {
     
     NSDictionary* parameters = @{
-                                 @"access_token" : [token getToken],
-                                 @"count" : @100,
-                                 @"min_tag_id" : @0
+                                 @"access_token" : self.accessToken,
+                                 @"count" : kTagsCount
                                  };
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *urlWithTag = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent", kTags];
     
-    NSLog(@"-----------------++++++++++++++++++++++++++--------------------");
-    
-    __weak SANServerManager *man = self;
-    [manager GET:@"https://api.instagram.com/v1/tags/cat/media/recent"
+    [self.manager GET:urlWithTag
       parameters:parameters
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             NSLog(@"JSON: %@", responseObject);
-             
-             NSArray *array = [responseObject objectForKey:@"data"];
-             NSLog(@"COUNT ARRAY = %lu", (unsigned long)[array count]);
-             
-             
-             man.tagArray = [NSMutableArray array];
-             for (int i = 0; i < [array count]; i++) {
-                 NSDictionary *dict = array[i];
-                 NSDictionary *captionDictionary = [dict objectForKey:@"caption"];
-                 NSString *text = [captionDictionary objectForKey:@"text"];
-                 NSLog(@"\n\nTEXT %d,\n = %@", i, text);
-                 
-                 NSDictionary *imageDictionary = [dict objectForKey:@"images"];
-                 NSDictionary *thumbnailDict = [imageDictionary objectForKey:@"thumbnail"];
-                 NSString *imagePath = [thumbnailDict objectForKey:@"url"];
-                 SANTag *tag = [[SANTag alloc] initWithText:text imagePath:imagePath];
-                 [man.tagArray addObject:tag];
-                 NSLog(@"manTag %@ text, %@ image\n\n\n", tag.text, tag.imagePath);
-             }
-            
-             [self.delegate rel:self.tagArray];
+           //  NSLog(@"JSON: %@", responseObject);
+             success(responseObject);
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error: %@", error);
          }];
-    
-    
-    
-    
-    
-    
-    /*        [self.requestOperationManager
-         GET:@"users.get"
-         parameters:params
-         success:^(AFHTTPRequestOperation *operation, NSDictionary* responseObject) {
-             NSLog(@"JSON: %@", responseObject);
-             
-             NSArray* dictsArray = [responseObject objectForKey:@"response"];
-             
-             if ([dictsArray count] > 0) {
-                 ASUser* user = [[ASUser alloc] initWithServerResponse:[dictsArray firstObject]];
-                 if (success) {
-                     success(user);
-                 }
-             } else {
-                 if (failure) {
-                     failure(nil, operation.response.statusCode);
-                 }
-             }
-             
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"Error: %@", error);
-             
-             if (failure) {
-                 failure(error, operation.response.statusCode);
-             }
-         }];
-     */
 }
-        
+
+- (void)getTagsDictionary:(void(^)(NSDictionary *tags))tagsBlock
+                onFailure:(void(^)(NSError* error, NSInteger statusCode))failure {
+    
+    if (!self.accessToken) {
+        [self authorizeUser:^() {
+            [self getTagsFromServer:^(NSDictionary *tagObjects) {
+                tagsBlock(tagObjects);
+            }];
+        }];
+    } else {
+            [self getTagsFromServer:^(NSDictionary *tagObjects) {
+                tagsBlock(tagObjects);
+            }];
+    }
+}
+
 @end

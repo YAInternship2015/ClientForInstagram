@@ -8,18 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		21E0E34CF328583A5E19D671 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE91DCA56FD609543D631BC3 /* libPods.a */; };
-		84186D8D1BC5B9BD009097A8 /* SANTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84186D8C1BC5B9BD009097A8 /* SANTableViewController.m */; };
-		842AB7971BC5919B00557230 /* SANTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 842AB7961BC5919B00557230 /* SANTag.m */; };
+		8428507E1BCAE710000E27BF /* SANTagObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8428507D1BCAE710000E27BF /* SANTagObject.m */; };
+		842963A51BC71983001F4AEF /* SANDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8429639F1BC71983001F4AEF /* SANDataSource.m */; };
+		842963A61BC71983001F4AEF /* SANLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842963A21BC71983001F4AEF /* SANLoginViewController.m */; };
 		842AF5181BC3114600CCE2C2 /* TempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842AF5171BC3114600CCE2C2 /* TempViewController.m */; };
+		842F42EC1BC7C95100501E8E /* InstagramLogin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 842F42EA1BC7C95100501E8E /* InstagramLogin.xcdatamodeld */; };
 		843DE4BF1BC19FF1007D703A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 843DE4BE1BC19FF1007D703A /* main.m */; };
 		843DE4C21BC19FF1007D703A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 843DE4C11BC19FF1007D703A /* AppDelegate.m */; };
 		843DE4C81BC19FF1007D703A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 843DE4C61BC19FF1007D703A /* Main.storyboard */; };
 		843DE4CA1BC19FF1007D703A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843DE4C91BC19FF1007D703A /* Images.xcassets */; };
 		843DE4CD1BC19FF1007D703A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843DE4CB1BC19FF1007D703A /* LaunchScreen.xib */; };
 		843DE4D91BC19FF1007D703A /* InstagramLoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 843DE4D81BC19FF1007D703A /* InstagramLoginTests.m */; };
-		843DE4E41BC1A013007D703A /* SANLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843DE4E31BC1A013007D703A /* SANLoginViewController.m */; };
-		843DE4E71BC1A094007D703A /* SANAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 843DE4E61BC1A094007D703A /* SANAccessToken.m */; };
 		843DE4EA1BC1BBB0007D703A /* SANServerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 843DE4E91BC1BBB0007D703A /* SANServerManager.m */; };
+		844DF79C1BC8573B006A4F93 /* SANDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DF79B1BC8573B006A4F93 /* SANDataManager.m */; };
+		84AC896F1BC9681900A6D1AB /* SANCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AC896E1BC9681900A6D1AB /* SANCustomTableViewCell.m */; };
+		84AC89791BC9967900A6D1AB /* SANCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AC89731BC9967900A6D1AB /* SANCollectionViewController.m */; };
+		84AC897A1BC9967900A6D1AB /* SANContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AC89751BC9967900A6D1AB /* SANContainerViewController.m */; };
+		84AC897B1BC9967900A6D1AB /* SANTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AC89771BC9967900A6D1AB /* SANTableViewController.m */; };
+		84AC89801BC996CF00A6D1AB /* SANCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AC897D1BC996CF00A6D1AB /* SANCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,12 +39,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		84186D8B1BC5B9BD009097A8 /* SANTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANTableViewController.h; sourceTree = "<group>"; };
-		84186D8C1BC5B9BD009097A8 /* SANTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANTableViewController.m; sourceTree = "<group>"; };
-		842AB7951BC5919B00557230 /* SANTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANTag.h; sourceTree = "<group>"; };
-		842AB7961BC5919B00557230 /* SANTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANTag.m; sourceTree = "<group>"; };
+		8428507C1BCAE710000E27BF /* SANTagObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANTagObject.h; sourceTree = "<group>"; };
+		8428507D1BCAE710000E27BF /* SANTagObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANTagObject.m; sourceTree = "<group>"; };
+		8429639E1BC71983001F4AEF /* SANDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANDataSource.h; sourceTree = "<group>"; };
+		8429639F1BC71983001F4AEF /* SANDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANDataSource.m; sourceTree = "<group>"; };
+		842963A11BC71983001F4AEF /* SANLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANLoginViewController.h; sourceTree = "<group>"; };
+		842963A21BC71983001F4AEF /* SANLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANLoginViewController.m; sourceTree = "<group>"; };
 		842AF5161BC3114600CCE2C2 /* TempViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempViewController.h; sourceTree = "<group>"; };
 		842AF5171BC3114600CCE2C2 /* TempViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempViewController.m; sourceTree = "<group>"; };
+		842F42EB1BC7C95100501E8E /* InstagramLogin.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = InstagramLogin.xcdatamodel; sourceTree = "<group>"; };
 		843DE4B91BC19FF1007D703A /* InstagramLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		843DE4BD1BC19FF1007D703A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843DE4BE1BC19FF1007D703A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -50,12 +59,20 @@
 		843DE4D21BC19FF1007D703A /* InstagramLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		843DE4D71BC19FF1007D703A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843DE4D81BC19FF1007D703A /* InstagramLoginTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InstagramLoginTests.m; sourceTree = "<group>"; };
-		843DE4E21BC1A013007D703A /* SANLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANLoginViewController.h; sourceTree = "<group>"; };
-		843DE4E31BC1A013007D703A /* SANLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANLoginViewController.m; sourceTree = "<group>"; };
-		843DE4E51BC1A094007D703A /* SANAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANAccessToken.h; sourceTree = "<group>"; };
-		843DE4E61BC1A094007D703A /* SANAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANAccessToken.m; sourceTree = "<group>"; };
 		843DE4E81BC1BBB0007D703A /* SANServerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANServerManager.h; sourceTree = "<group>"; };
 		843DE4E91BC1BBB0007D703A /* SANServerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANServerManager.m; sourceTree = "<group>"; };
+		844DF79A1BC8573B006A4F93 /* SANDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANDataManager.h; sourceTree = "<group>"; };
+		844DF79B1BC8573B006A4F93 /* SANDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANDataManager.m; sourceTree = "<group>"; };
+		84AC896D1BC9681900A6D1AB /* SANCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANCustomTableViewCell.h; sourceTree = "<group>"; };
+		84AC896E1BC9681900A6D1AB /* SANCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANCustomTableViewCell.m; sourceTree = "<group>"; };
+		84AC89721BC9967900A6D1AB /* SANCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANCollectionViewController.h; sourceTree = "<group>"; };
+		84AC89731BC9967900A6D1AB /* SANCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANCollectionViewController.m; sourceTree = "<group>"; };
+		84AC89741BC9967900A6D1AB /* SANContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANContainerViewController.h; sourceTree = "<group>"; };
+		84AC89751BC9967900A6D1AB /* SANContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANContainerViewController.m; sourceTree = "<group>"; };
+		84AC89761BC9967900A6D1AB /* SANTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANTableViewController.h; sourceTree = "<group>"; };
+		84AC89771BC9967900A6D1AB /* SANTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANTableViewController.m; sourceTree = "<group>"; };
+		84AC897C1BC996CF00A6D1AB /* SANCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANCollectionViewCell.h; sourceTree = "<group>"; };
+		84AC897D1BC996CF00A6D1AB /* SANCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANCollectionViewCell.m; sourceTree = "<group>"; };
 		A2C6BCC55AE9353E4F08605D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BB1DD23FF593871391529462 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DE91DCA56FD609543D631BC3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +114,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		842963A01BC71983001F4AEF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				84AC89721BC9967900A6D1AB /* SANCollectionViewController.h */,
+				84AC89731BC9967900A6D1AB /* SANCollectionViewController.m */,
+				84AC89741BC9967900A6D1AB /* SANContainerViewController.h */,
+				84AC89751BC9967900A6D1AB /* SANContainerViewController.m */,
+				84AC89761BC9967900A6D1AB /* SANTableViewController.h */,
+				84AC89771BC9967900A6D1AB /* SANTableViewController.m */,
+				842963A11BC71983001F4AEF /* SANLoginViewController.h */,
+				842963A21BC71983001F4AEF /* SANLoginViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		843DE4B01BC19FF1007D703A = {
 			isa = PBXGroup;
 			children = (
@@ -120,24 +152,24 @@
 		843DE4BB1BC19FF1007D703A /* InstagramLogin */ = {
 			isa = PBXGroup;
 			children = (
+				84AC89691BC967E100A6D1AB /* Models */,
+				84AC89681BC9679600A6D1AB /* Cells */,
+				844DF79A1BC8573B006A4F93 /* SANDataManager.h */,
+				844DF79B1BC8573B006A4F93 /* SANDataManager.m */,
+				843DE4E81BC1BBB0007D703A /* SANServerManager.h */,
+				843DE4E91BC1BBB0007D703A /* SANServerManager.m */,
+				842963A01BC71983001F4AEF /* ViewControllers */,
+				8429639E1BC71983001F4AEF /* SANDataSource.h */,
+				8429639F1BC71983001F4AEF /* SANDataSource.m */,
 				843DE4C01BC19FF1007D703A /* AppDelegate.h */,
 				843DE4C11BC19FF1007D703A /* AppDelegate.m */,
 				843DE4C61BC19FF1007D703A /* Main.storyboard */,
 				843DE4C91BC19FF1007D703A /* Images.xcassets */,
 				843DE4CB1BC19FF1007D703A /* LaunchScreen.xib */,
 				843DE4BC1BC19FF1007D703A /* Supporting Files */,
-				843DE4E21BC1A013007D703A /* SANLoginViewController.h */,
-				843DE4E31BC1A013007D703A /* SANLoginViewController.m */,
-				843DE4E51BC1A094007D703A /* SANAccessToken.h */,
-				843DE4E61BC1A094007D703A /* SANAccessToken.m */,
-				843DE4E81BC1BBB0007D703A /* SANServerManager.h */,
-				843DE4E91BC1BBB0007D703A /* SANServerManager.m */,
 				842AF5161BC3114600CCE2C2 /* TempViewController.h */,
 				842AF5171BC3114600CCE2C2 /* TempViewController.m */,
-				842AB7951BC5919B00557230 /* SANTag.h */,
-				842AB7961BC5919B00557230 /* SANTag.m */,
-				84186D8B1BC5B9BD009097A8 /* SANTableViewController.h */,
-				84186D8C1BC5B9BD009097A8 /* SANTableViewController.m */,
+				842F42EA1BC7C95100501E8E /* InstagramLogin.xcdatamodeld */,
 			);
 			path = InstagramLogin;
 			sourceTree = "<group>";
@@ -166,6 +198,26 @@
 				843DE4D71BC19FF1007D703A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84AC89681BC9679600A6D1AB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				84AC897C1BC996CF00A6D1AB /* SANCollectionViewCell.h */,
+				84AC897D1BC996CF00A6D1AB /* SANCollectionViewCell.m */,
+				84AC896D1BC9681900A6D1AB /* SANCustomTableViewCell.h */,
+				84AC896E1BC9681900A6D1AB /* SANCustomTableViewCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		84AC89691BC967E100A6D1AB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8428507C1BCAE710000E27BF /* SANTagObject.h */,
+				8428507D1BCAE710000E27BF /* SANTagObject.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,14 +355,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				843DE4E71BC1A094007D703A /* SANAccessToken.m in Sources */,
-				84186D8D1BC5B9BD009097A8 /* SANTableViewController.m in Sources */,
-				842AB7971BC5919B00557230 /* SANTag.m in Sources */,
-				843DE4E41BC1A013007D703A /* SANLoginViewController.m in Sources */,
+				844DF79C1BC8573B006A4F93 /* SANDataManager.m in Sources */,
 				842AF5181BC3114600CCE2C2 /* TempViewController.m in Sources */,
+				842963A61BC71983001F4AEF /* SANLoginViewController.m in Sources */,
+				842F42EC1BC7C95100501E8E /* InstagramLogin.xcdatamodeld in Sources */,
+				8428507E1BCAE710000E27BF /* SANTagObject.m in Sources */,
 				843DE4EA1BC1BBB0007D703A /* SANServerManager.m in Sources */,
+				84AC897B1BC9967900A6D1AB /* SANTableViewController.m in Sources */,
+				84AC89791BC9967900A6D1AB /* SANCollectionViewController.m in Sources */,
+				84AC896F1BC9681900A6D1AB /* SANCustomTableViewCell.m in Sources */,
+				84AC89801BC996CF00A6D1AB /* SANCollectionViewCell.m in Sources */,
 				843DE4C21BC19FF1007D703A /* AppDelegate.m in Sources */,
+				842963A51BC71983001F4AEF /* SANDataSource.m in Sources */,
 				843DE4BF1BC19FF1007D703A /* main.m in Sources */,
+				84AC897A1BC9967900A6D1AB /* SANContainerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +577,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		842F42EA1BC7C95100501E8E /* InstagramLogin.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				842F42EB1BC7C95100501E8E /* InstagramLogin.xcdatamodel */,
+			);
+			currentVersion = 842F42EB1BC7C95100501E8E /* InstagramLogin.xcdatamodel */;
+			path = InstagramLogin.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 843DE4B11BC19FF1007D703A /* Project object */;
 }
