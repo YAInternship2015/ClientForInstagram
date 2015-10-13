@@ -11,7 +11,7 @@
 
 @implementation SANDataManager
 
-- (void)mappingTagDictionary:(void(^)(NSArray *tagArray))array {
+- (void)mappingTagDictionary:(void(^)(NSArray *tagArray, NSString *nextPageUrl))completionBlock {
     
     NSMutableArray *tempArray = [NSMutableArray array];
     
@@ -40,10 +40,14 @@
 
             [tempArray addObject:dictionaty];
         }
-        array(tempArray);
-        NSLog(@"COUNT ARRAY = %lu", (unsigned long)[dataArray count]);
+        
+        NSDictionary *dict = [tags objectForKey:@"pagination"];
+        NSString *nextPageUrl = [dict objectForKey:@"next_url"];
+        
+        completionBlock(tempArray, nextPageUrl);
+
     } onFailure:^(NSError *error, NSInteger statusCode) {
-        array(nil);
+        completionBlock(nil, nil);
     }];
 }
 

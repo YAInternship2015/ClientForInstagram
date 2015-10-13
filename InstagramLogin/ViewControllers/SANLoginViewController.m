@@ -75,13 +75,12 @@
         [manager POST:@"https://api.instagram.com/oauth/access_token"
                 parameters:parameters
                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                       NSLog(@"JSON: %@", responseObject);
                        
                        NSString *token = responseObject[@"access_token"];
                        self.completionBlock(token);
                        self.webView.delegate = nil;
                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                       NSLog(@"Error: %@", error);
+                      
                        self.completionBlock(nil);
                        self.webView.delegate = nil;
                    }];

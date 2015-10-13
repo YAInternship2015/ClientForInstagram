@@ -9,6 +9,8 @@
 #import "SANDataSource.h"
 #import "SANDataManager.h"
 #import "SANTagObject.h"
+#import "SANPageObject.h"
+#import "SANActivityIndicator.h"
 
 #define FETCH_BATCH_SIZE 30
 
@@ -19,6 +21,7 @@
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, weak) id<NSFetchedResultsControllerDelegate> delegate;
+@property (nonatomic, strong) SANActivityIndicator *indicator;
 
 @end
 
@@ -30,7 +33,8 @@
     self = [super init];
     if (self) {
         self.delegate = delegate;
-        if ([self modelCount] < FETCH_BATCH_SIZE) {
+        self.indicator = [SANActivityIndicator new];
+        if ([self modelCount] < FETCH_BATCH_SIZE-1) {
             [self loadTagsFromDataManager];
         }
     }
@@ -57,7 +61,7 @@
     
     [fetchRequest setFetchBatchSize:FETCH_BATCH_SIZE];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"text" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
@@ -79,13 +83,16 @@
 #pragma mark - Methods
 
 - (void)loadTagsFromDataManager {
+    [self.indicator showActivity];
+    
+    __weak SANDataSource *weakData = self;
     SANDataManager *dataManager = [SANDataManager new];
-    [dataManager mappingTagDictionary:^(NSArray *tagArray) {
+    [dataManager mappingTagDictionary:^(NSArray *tagArray, NSString *nextPageUrl) {
         for (int i = 0; i < [tagArray count]; i++) {
-           // NSLog(@"TEXT = %@, image = %@, %@\n\n\n", [tagArray[i] objectForKey:@"text"], [tagArray[i] objectForKey:@"imagePath"], [tagArray[i] objectForKey:@"modelId"]);
-            
             [self addModelWithImagePath:[tagArray[i] objectForKey:@"imagePath"] name:[tagArray[i] objectForKey:@"text"] modelId:[tagArray[i] objectForKey:@"modelId"]];
         }
+        [self addNextPageUrl:nextPageUrl];
+        [weakData.indicator hideActivity];
     }];
 }
 
@@ -110,7 +117,6 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(modelId = %@)", modelId];
     [request setPredicate:predicate];
     
-    
     NSError* requestError = nil;
     NSArray* resultArray = [self.managedObjectContext executeFetchRequest:request error:&requestError];
     if (requestError) {
@@ -120,9 +126,8 @@
         SANTagObject *model = resultArray[0];
         model.text = name;
         model.imagePath = imagePath;
+        model.date = [NSDate date];
         [model.managedObjectContext save:nil];
-    
-    
     } else {
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
@@ -132,6 +137,7 @@
         [newManagedObject setValue:imagePath forKey:@"imagePath"];
         [newManagedObject setValue:name forKey:@"text"];
         [newManagedObject setValue:modelId forKey:@"modelId"];
+        [newManagedObject setValue:[NSDate date] forKey:@"date"];
         
         // Save the context.
         NSError *error = nil;
@@ -139,24 +145,7 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-        
-        NSLog(@"NO -----------------------------------------------------------------------");
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 }
 
 -(void)deleteModelAtIndex:(NSIndexPath *)index {
@@ -173,6 +162,60 @@
 - (SANTagObject *)modelAtIndexPath:(NSIndexPath *)indexPath {
     SANTagObject *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
     return tag;
+}
+
+- (void)addNextPageUrl:(NSString *)url {
+    SANPageObject *page = [self pageObject];
+    if (!page) {
+        SANPageObject *page =
+        [NSEntityDescription insertNewObjectForEntityForName:@"SANPageObject"
+                                      inManagedObjectContext:self.managedObjectContext];
+        
+        page.nextPageUrl = url;
+        
+        // Save the context.
+        NSError *error = nil;
+        if (![page.managedObjectContext save:nil]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    } else {
+        page.nextPageUrl = url;
+        [page.managedObjectContext save:nil];
+    }
+}
+
+- (SANPageObject *)pageObject {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription* description =
+    [NSEntityDescription entityForName:@"SANPageObject"
+                inManagedObjectContext:self.managedObjectContext];
+    
+    [request setEntity:description];
+    
+    NSError* requestError = nil;
+    NSArray* resultArray = [self.managedObjectContext executeFetchRequest:request error:&requestError];
+    if (requestError) {
+        NSLog(@"%@", [requestError localizedDescription]);
+    }
+    if ([resultArray count] != 0) {
+        SANPageObject *page = resultArray[0];
+        return page;
+    }
+    return nil;
+}
+
+- (void)deletePageObject {
+    [self.managedObjectContext deleteObject:[self pageObject]];
+    [self.managedObjectContext save:nil];
+}
+
+- (NSString *)nextPageUrl {
+    if ([self pageObject].nextPageUrl) {
+        return [self pageObject].nextPageUrl;
+    }
+    return nil;
 }
 
 #pragma mark - Core Data stack

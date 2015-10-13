@@ -10,6 +10,8 @@
 #import "SANDataSource.h"
 #import "SANCustomTableViewCell.h"
 
+#define MIN_COUNT_CELLS 30
+
 @interface SANTableViewController() <UITableViewDataSource,
                                       UITableViewDelegate,
                                       NSFetchedResultsControllerDelegate>
@@ -53,8 +55,10 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-#warning to be continue ...
-    if (indexPath.row == ([self.dataSource modelCount] - 1)) {
+    if ([self.dataSource modelCount] >= MIN_COUNT_CELLS) {
+        if (indexPath.row == ([self.dataSource modelCount] - 1)){
+            [self.dataSource loadTagsFromDataManager];
+        }
     }
 }
 
@@ -83,6 +87,9 @@
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationFade];
+            if ([self.dataSource modelCount] < MIN_COUNT_CELLS) {
+                [self.dataSource loadTagsFromDataManager];
+            }
             break;
             
         case NSFetchedResultsChangeUpdate:

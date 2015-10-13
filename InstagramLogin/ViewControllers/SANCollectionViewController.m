@@ -10,6 +10,8 @@
 #import "SANDataSource.h"
 #import "SANCollectionViewCell.h"
 
+#define MIN_COUNT_CELLS 30
+
 @interface SANCollectionViewController () < UICollectionViewDataSource,
                                             UICollectionViewDelegate,
                                             NSFetchedResultsControllerDelegate>
@@ -46,11 +48,11 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning to be continue ...
     if (indexPath.row == ([self.dataSource modelCount] - 1)) {
-        
+        if (indexPath.row == ([self.dataSource modelCount] - 1)) {
+            [self.dataSource loadTagsFromDataManager];
+        }
     }
-  
 }
 
 #pragma mark - Methods
@@ -81,6 +83,11 @@
             break;
         case NSFetchedResultsChangeDelete:
             change[@(type)] = indexPath;
+            if ([self.dataSource modelCount] >= MIN_COUNT_CELLS) {
+                if (indexPath.row == ([self.dataSource modelCount] - 1)){
+                    [self.dataSource loadTagsFromDataManager];
+                }
+            }
             break;
         case NSFetchedResultsChangeUpdate:
             break;

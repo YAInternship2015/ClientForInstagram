@@ -10,6 +10,6 @@
 
 @interface SANDataManager : NSObject
 
-- (void)mappingTagDictionary:(void(^)(NSArray *tagArray))array;
+- (void)mappingTagDictionary:(void(^)(NSArray *tagArray, NSString *nextPageUrl))completionBlock;
 
 @end

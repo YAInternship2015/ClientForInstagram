@@ -18,11 +18,7 @@
 @end
 
 @implementation SANCustomTableViewCell
-/*
-+ (CGFloat)heightForText:(NSString *)text {
-    return 10;
-}
-*/
+
 - (void)setupWithTag:(SANTagObject *)tag {
     
     NSString *str = [NSString stringWithFormat:@"%@", tag.imagePath];

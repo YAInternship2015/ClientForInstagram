@@ -16,9 +16,10 @@
 - (void)loadTagsFromDataManager;
 - (NSInteger)modelCount;
 - (instancetype)initWithDelegate:(id<NSFetchedResultsControllerDelegate>)delegate;
-//- (void)addModelWithImagePath:(NSString *)imagePath name:(NSString *)name;
 - (void)deleteModelAtIndex:(NSIndexPath *)index;
 - (SANTagObject *)modelAtIndexPath:(NSIndexPath *)indexPath;
+- (void)deletePageObject;
+- (NSString *)nextPageUrl;
 - (void)saveContext;
 
 @end

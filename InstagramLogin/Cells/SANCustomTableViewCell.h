@@ -12,7 +12,6 @@
 
 @interface SANCustomTableViewCell : UITableViewCell
 
-//+ (CGFloat)heightForText:(NSString *)text;
 - (void)setupWithTag:(SANTagObject *)tag;
 
 @end

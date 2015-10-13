@@ -21,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="-257" y="-168"/>
         </scene>
-        <!--Movies-->
+        <!--Michael Jackson-->
         <scene sceneID="RG9-N9-MHe">
             <objects>
                 <viewController id="EaX-o3-HFW" customClass="SANContainerViewController" sceneMemberID="viewController">
@@ -34,8 +34,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Movies" id="1GS-LJ-CWk">
-                        <barButtonItem key="leftBarButtonItem" title="Switch" id="ebI-oG-893">
+                    <navigationItem key="navigationItem" title="Michael Jackson" id="1GS-LJ-CWk">
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="ebI-oG-893">
                             <connections>
                                 <action selector="switchAction:" destination="EaX-o3-HFW" id="6qD-ec-WqG"/>
                             </connections>
