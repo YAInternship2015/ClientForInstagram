@@ -60,16 +60,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xx3-cW-LhV" id="Wng-Yi-rlr">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmc-5Z-PqW">
-                                            <rect key="frame" x="121" y="8" width="181" height="63"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="63" id="oba-aV-fMB"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="flg-3S-thQ">
                                             <rect key="frame" x="16" y="5" width="90" height="90"/>
                                             <color key="backgroundColor" red="0.037583530220000001" green="0.001131755526" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -83,11 +73,21 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmc-5Z-PqW">
+                                            <rect key="frame" x="121" y="8" width="181" height="83"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="83" id="oba-aV-fMB"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="flg-3S-thQ" firstAttribute="top" secondItem="Wng-Yi-rlr" secondAttribute="topMargin" constant="-3" id="3Wx-wk-fMt"/>
                                         <constraint firstItem="hmc-5Z-PqW" firstAttribute="leading" secondItem="flg-3S-thQ" secondAttribute="trailing" constant="15" id="3n4-Rz-uLw"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="hmc-5Z-PqW" secondAttribute="bottom" constant="20" id="SZL-b4-eV2"/>
+                                        <constraint firstItem="hmc-5Z-PqW" firstAttribute="bottom" secondItem="Wng-Yi-rlr" secondAttribute="bottomMargin" id="TWx-qN-wAc"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="hmc-5Z-PqW" secondAttribute="trailing" constant="10" id="XaJ-bm-mRw"/>
                                         <constraint firstItem="hmc-5Z-PqW" firstAttribute="top" secondItem="Wng-Yi-rlr" secondAttribute="topMargin" id="bUg-la-ipb"/>
                                         <constraint firstItem="flg-3S-thQ" firstAttribute="leading" secondItem="Wng-Yi-rlr" secondAttribute="leadingMargin" constant="8" id="lPY-f8-Dtq"/>

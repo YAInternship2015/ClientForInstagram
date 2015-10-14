@@ -33,10 +33,10 @@
             NSString *modelId = [captionDictionary objectForKey:@"id"];
             
             NSDictionary *dictionaty = @{
-                                   @"text"      : text,
-                                   @"imagePath" : imagePath,
-                                   @"modelId"   : modelId
-                                   };
+                                         @"text"      : text,
+                                         @"imagePath" : imagePath,
+                                         @"modelId"   : modelId
+                                         };
 
             [tempArray addObject:dictionaty];
         }
