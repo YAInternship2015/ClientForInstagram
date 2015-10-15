@@ -27,6 +27,7 @@
     
     __weak SANCollectionViewCell *weakCell = self;
     self.imageView.image = nil;
+#warning можно было испольщовать - (void)setImageWithURL:(NSURL *)url, то же самое в collectionViewCell
     [self.imageView
      setImageWithURLRequest:request
      placeholderImage:nil

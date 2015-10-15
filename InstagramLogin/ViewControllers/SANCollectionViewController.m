@@ -48,6 +48,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+#warning два одинаковых if?
     if (indexPath.row == ([self.dataSource modelCount] - 1)) {
         if (indexPath.row == ([self.dataSource modelCount] - 1)) {
             [self.dataSource loadTagsFromDataManager];
@@ -84,6 +85,7 @@
         case NSFetchedResultsChangeDelete:
             change[@(type)] = indexPath;
             if ([self.dataSource modelCount] >= MIN_COUNT_CELLS) {
+#warning такая проверка уже была в методе willDisplayCell:, стоит ее вынести в отдельный метод
                 if (indexPath.row == ([self.dataSource modelCount] - 1)){
                     [self.dataSource loadTagsFromDataManager];
                 }

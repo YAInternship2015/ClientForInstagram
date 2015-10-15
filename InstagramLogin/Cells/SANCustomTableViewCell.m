@@ -33,6 +33,7 @@
      placeholderImage:nil
      success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
          weakCell.avatarImageView.image = image;
+#warning нужен ли здесь layoutSubviews
          [weakCell layoutSubviews];
      }
      failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {

@@ -10,6 +10,7 @@
 
 @interface SANDataManager : NSObject
 
+#warning для типов блоков надо испольщовать typedef'ы
 - (void)mappingTagDictionary:(void(^)(NSArray *tagArray, NSString *nextPageUrl))completionBlock;
 
 @end

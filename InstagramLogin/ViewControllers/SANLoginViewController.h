@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+#warning эти урлы нужны в *.h?
 static NSString *const kAuthUrlString  = @"https://api.instagram.com/oauth/authorize/";
 static NSString *const kTokenUrlString = @"https://api.instagram.com/oauth/access_token/";
 static NSString *const kClientID       = @"1b7349d77eb1421f9529a4728d201639";

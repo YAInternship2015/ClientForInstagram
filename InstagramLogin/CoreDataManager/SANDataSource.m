@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, weak) id<NSFetchedResultsControllerDelegate> delegate;
+#warning а нужен ли вообще этот индикатор? AFNetworking сам уже хендлит отображение спиннера в UIStatusBar
 @property (nonatomic, strong) SANActivityIndicator *indicator;
 
 @end
@@ -87,6 +88,7 @@
     
     __weak SANDataSource *weakData = self;
     SANDataManager *dataManager = [SANDataManager new];
+#warning тут совсем неочевидное обращение за новыми данными. Должен быть метод вроде loadNextPage, внутри дата менеджера, который уже и хранит nextPageUrl. Потому что nextPageUrl по сути дата сорсу не нужен. Внутри дата менеджер вызывает метод загрузки данных у объекта-апи-клиента, который по факту отправляет запрос, возвращает загруженные данные в дата менеджер, который их затем маппит в базу и обновляет у себя nextPageUrl
     [dataManager mappingTagDictionary:^(NSArray *tagArray, NSString *nextPageUrl) {
         for (int i = 0; i < [tagArray count]; i++) {
             [self addModelWithImagePath:[tagArray[i] objectForKey:@"imagePath"] name:[tagArray[i] objectForKey:@"text"] modelId:[tagArray[i] objectForKey:@"modelId"]];
@@ -104,6 +106,7 @@
         return 0;
 }
 
+#warning это должно быть в дата менеджере
 - (void)addModelWithImagePath:(NSString *)imagePath name:(NSString *)name modelId:(NSString *)modelId {
     
     NSFetchRequest* request = [[NSFetchRequest alloc] init];

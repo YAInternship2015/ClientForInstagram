@@ -37,6 +37,7 @@
     CGRect rect = self.view.bounds;
     rect.origin = CGPointMake(0, [UIApplication sharedApplication].statusBarFrame.size.height);
     
+#warning webView было бы проще создавать в сториборде
     UIWebView *webView = [[UIWebView alloc] initWithFrame:rect];
     [self.view addSubview:webView];
     webView.delegate = self;
