@@ -12,8 +12,12 @@
 
 @interface SANServerManager : NSObject
 
-#warning определение блоков надо перенести в typedef
-- (void)getTagsDictionary:(void(^)(NSDictionary *tags))tagsBlock
-                onFailure:(void(^)(NSError* error, NSInteger statusCode))failure;
+typedef void(^SANTagsDictionaryBlock)(NSDictionary *tags);
+typedef void(^SANErrorBlock)(NSError* error, NSInteger statusCode);
+
+- (void)loadTagsFromServerWithPageUrl:(NSString *)url
+                       TagsDictionary:(SANTagsDictionaryBlock)success
+                            onFailure:(SANErrorBlock)failure;
+
 @end
 

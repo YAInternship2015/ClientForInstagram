@@ -48,15 +48,14 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning два одинаковых if?
-    if (indexPath.row == ([self.dataSource modelCount] - 1)) {
+     if ([self minCellsCount]) {
         if (indexPath.row == ([self.dataSource modelCount] - 1)) {
             [self.dataSource loadTagsFromDataManager];
         }
     }
 }
 
-#pragma mark - Methods
+#pragma mark - Actions
 
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
     CGPoint locationPoint = [sender locationInView:self.collectionView];
@@ -64,6 +63,12 @@
     if (sender.state == UIGestureRecognizerStateBegan && indexPath) {
         [self.dataSource deleteModelAtIndex:indexPath];
     }
+}
+
+#pragma mark - Methods
+
+- (BOOL)minCellsCount {
+    return [self.dataSource modelCount] >= MIN_COUNT_CELLS;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
@@ -84,8 +89,7 @@
             break;
         case NSFetchedResultsChangeDelete:
             change[@(type)] = indexPath;
-            if ([self.dataSource modelCount] >= MIN_COUNT_CELLS) {
-#warning такая проверка уже была в методе willDisplayCell:, стоит ее вынести в отдельный метод
+            if ([self minCellsCount]) {
                 if (indexPath.row == ([self.dataSource modelCount] - 1)){
                     [self.dataSource loadTagsFromDataManager];
                 }

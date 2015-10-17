@@ -9,15 +9,21 @@
 #import "SANContainerViewController.h"
 #import "SANTableViewController.h"
 #import "SANCollectionViewController.h"
+//#import "SANLoginViewController.h"
 
 #define ANIMATION_DURATION_IN_SECONDS 0.25
+
+typedef enum {
+    tableViewController,
+    collectionViewController
+} ActiveViewController;
 
 static NSString * const SANTableControllerStoryboardID = @"SANTableViewController";
 static NSString * const SANCollectionControllerStoryboardID = @"SANCollectionViewController";
 
 @interface SANContainerViewController ()
 
-@property (nonatomic, assign) BOOL switchFlagViewController;
+@property (nonatomic, assign) ActiveViewController *activeVC;
 @property (nonatomic, strong) SANTableViewController *tableVC;
 @property (nonatomic, strong) SANCollectionViewController *collectionVC;
 
@@ -29,7 +35,10 @@ static NSString * const SANCollectionControllerStoryboardID = @"SANCollectionVie
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.switchFlagViewController = YES;
+    
+    //[self authorization];
+    
+    self.activeVC = tableViewController;
     
     self.tableVC = [self.storyboard instantiateViewControllerWithIdentifier:SANTableControllerStoryboardID];
     [self addChildViewController:self.tableVC];
@@ -40,19 +49,25 @@ static NSString * const SANCollectionControllerStoryboardID = @"SANCollectionVie
 #pragma mark - Actions
 
 - (IBAction)switchAction:(UIBarButtonItem *)sender {
-    if (self.switchFlagViewController) {
+    if (self.activeVC == tableViewController) {
         self.collectionVC = [self.storyboard instantiateViewControllerWithIdentifier:SANCollectionControllerStoryboardID];
         [self swapFromViewController:self.tableVC toViewController:self.collectionVC];
-        self.switchFlagViewController = NO;
+        self.activeVC = collectionViewController;
     }else{
         self.tableVC = [self.storyboard instantiateViewControllerWithIdentifier:SANTableControllerStoryboardID];
         [self swapFromViewController:self.collectionVC toViewController:self.tableVC];
-        self.switchFlagViewController = YES;
+        self.activeVC = tableViewController;
     }
 }
 
 #pragma mark - Methods
-
+/*
+- (void)authorization {
+    SANLoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SANLoginViewController"];
+    UIViewController *mainVC = [[[[UIApplication sharedApplication] windows] firstObject] rootViewController];
+    [mainVC presentViewController:loginViewController animated:YES completion:nil];
+}
+*/
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController {
     self.navigationController.navigationBar.translucent = NO;
 

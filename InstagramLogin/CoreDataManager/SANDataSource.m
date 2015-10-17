@@ -8,9 +8,7 @@
 
 #import "SANDataSource.h"
 #import "SANDataManager.h"
-#import "SANTagObject.h"
-#import "SANPageObject.h"
-#import "SANActivityIndicator.h"
+//#import "SANTagObject.h"
 
 #define FETCH_BATCH_SIZE 30
 
@@ -20,9 +18,7 @@
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, weak) id<NSFetchedResultsControllerDelegate> delegate;
-#warning а нужен ли вообще этот индикатор? AFNetworking сам уже хендлит отображение спиннера в UIStatusBar
-@property (nonatomic, strong) SANActivityIndicator *indicator;
+@property (nonatomic, weak)  id<NSFetchedResultsControllerDelegate> delegate;
 
 @end
 
@@ -34,8 +30,7 @@
     self = [super init];
     if (self) {
         self.delegate = delegate;
-        self.indicator = [SANActivityIndicator new];
-        if ([self modelCount] < FETCH_BATCH_SIZE-1) {
+        if ([self modelCount] < FETCH_BATCH_SIZE - 1) {
             [self loadTagsFromDataManager];
         }
     }
@@ -84,18 +79,11 @@
 #pragma mark - Methods
 
 - (void)loadTagsFromDataManager {
-    [self.indicator showActivity];
+    SANDataManager *dataManager = [[SANDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    [dataManager loadNextPage];
     
-    __weak SANDataSource *weakData = self;
-    SANDataManager *dataManager = [SANDataManager new];
 #warning тут совсем неочевидное обращение за новыми данными. Должен быть метод вроде loadNextPage, внутри дата менеджера, который уже и хранит nextPageUrl. Потому что nextPageUrl по сути дата сорсу не нужен. Внутри дата менеджер вызывает метод загрузки данных у объекта-апи-клиента, который по факту отправляет запрос, возвращает загруженные данные в дата менеджер, который их затем маппит в базу и обновляет у себя nextPageUrl
-    [dataManager mappingTagDictionary:^(NSArray *tagArray, NSString *nextPageUrl) {
-        for (int i = 0; i < [tagArray count]; i++) {
-            [self addModelWithImagePath:[tagArray[i] objectForKey:@"imagePath"] name:[tagArray[i] objectForKey:@"text"] modelId:[tagArray[i] objectForKey:@"modelId"]];
-        }
-        [self addNextPageUrl:nextPageUrl];
-        [weakData.indicator hideActivity];
-    }];
+    
 }
 
 - (NSInteger)modelCount {
@@ -104,51 +92,6 @@
         return [sectionInfo numberOfObjects];
     } else
         return 0;
-}
-
-#warning это должно быть в дата менеджере
-- (void)addModelWithImagePath:(NSString *)imagePath name:(NSString *)name modelId:(NSString *)modelId {
-    
-    NSFetchRequest* request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription* description =
-    [NSEntityDescription entityForName:@"SANTagObject"
-                inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:description];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(modelId = %@)", modelId];
-    [request setPredicate:predicate];
-    
-    NSError* requestError = nil;
-    NSArray* resultArray = [self.managedObjectContext executeFetchRequest:request error:&requestError];
-    if (requestError) {
-        NSLog(@"%@", [requestError localizedDescription]);
-    }
-    if ([resultArray count] > 0) {
-        SANTagObject *model = resultArray[0];
-        model.text = name;
-        model.imagePath = imagePath;
-        model.date = [NSDate date];
-        [model.managedObjectContext save:nil];
-    } else {
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name]
-                                                                          inManagedObjectContext:context];
-        
-        [newManagedObject setValue:imagePath forKey:@"imagePath"];
-        [newManagedObject setValue:name forKey:@"text"];
-        [newManagedObject setValue:modelId forKey:@"modelId"];
-        [newManagedObject setValue:[NSDate date] forKey:@"date"];
-        
-        // Save the context.
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
 }
 
 -(void)deleteModelAtIndex:(NSIndexPath *)index {
@@ -165,60 +108,6 @@
 - (SANTagObject *)modelAtIndexPath:(NSIndexPath *)indexPath {
     SANTagObject *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
     return tag;
-}
-
-- (void)addNextPageUrl:(NSString *)url {
-    SANPageObject *page = [self pageObject];
-    if (!page) {
-        SANPageObject *page =
-        [NSEntityDescription insertNewObjectForEntityForName:@"SANPageObject"
-                                      inManagedObjectContext:self.managedObjectContext];
-        
-        page.nextPageUrl = url;
-        
-        // Save the context.
-        NSError *error = nil;
-        if (![page.managedObjectContext save:nil]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    } else {
-        page.nextPageUrl = url;
-        [page.managedObjectContext save:nil];
-    }
-}
-
-- (SANPageObject *)pageObject {
-    NSFetchRequest* request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription* description =
-    [NSEntityDescription entityForName:@"SANPageObject"
-                inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:description];
-    
-    NSError* requestError = nil;
-    NSArray* resultArray = [self.managedObjectContext executeFetchRequest:request error:&requestError];
-    if (requestError) {
-        NSLog(@"%@", [requestError localizedDescription]);
-    }
-    if ([resultArray count] != 0) {
-        SANPageObject *page = resultArray[0];
-        return page;
-    }
-    return nil;
-}
-
-- (void)deletePageObject {
-    [self.managedObjectContext deleteObject:[self pageObject]];
-    [self.managedObjectContext save:nil];
-}
-
-- (NSString *)nextPageUrl {
-    if ([self pageObject].nextPageUrl) {
-        return [self pageObject].nextPageUrl;
-    }
-    return nil;
 }
 
 #pragma mark - Core Data stack

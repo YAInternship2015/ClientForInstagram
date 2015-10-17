@@ -18,8 +18,6 @@
 - (instancetype)initWithDelegate:(id<NSFetchedResultsControllerDelegate>)delegate;
 - (void)deleteModelAtIndex:(NSIndexPath *)index;
 - (SANTagObject *)modelAtIndexPath:(NSIndexPath *)indexPath;
-- (void)deletePageObject;
-- (NSString *)nextPageUrl;
 - (void)saveContext;
 
 @end

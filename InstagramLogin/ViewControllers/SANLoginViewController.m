@@ -8,12 +8,12 @@
 
 #import "SANLoginViewController.h"
 #import "AFNetworking.h"
+#import "SANConstants.h"
+#import "SANContainerViewController.h"
 
-@interface SANLoginViewController ()<UIWebViewDelegate>
+@interface SANLoginViewController ()
 
-@property (nonatomic, strong) NSString *fullAuthUrlString;
-@property (nonatomic, copy) SANLoginCompletionBlock completionBlock;
-@property (nonatomic, weak) UIWebView *webView;
+@property (nonatomic, weak) IBOutlet UIWebView *webView;
 
 @end
 
@@ -21,31 +21,16 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithAuthorizeUrlString:(NSString *)authUrlString
-                           completionBlock:(SANLoginCompletionBlock)completionBlock {
-    self = [super init];
-    if (self) {
-        self.fullAuthUrlString = authUrlString;
-        self.completionBlock = completionBlock;
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    CGRect rect = self.view.bounds;
-    rect.origin = CGPointMake(0, [UIApplication sharedApplication].statusBarFrame.size.height);
     
-#warning webView было бы проще создавать в сториборде
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:rect];
-    [self.view addSubview:webView];
-    webView.delegate = self;
-    self.webView = webView;
+    NSString *fullAuthUrlString =
+    [[NSString alloc] initWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code",
+     kAuthUrlString, kClientID, kRedirectUri];
     
-    NSURL *url = [NSURL URLWithString:self.fullAuthUrlString];
+    NSURL *url = [NSURL URLWithString:fullAuthUrlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [webView loadRequest:request];
+    [self.webView loadRequest:request];
 }
 
 - (void)dealloc {
@@ -71,21 +56,28 @@
                                      @"redirect_uri"  : kRedirectUri,
                                      @"code" : code
                                      };
-   
+        __weak SANLoginViewController *weakLoginVC = self;
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         [manager POST:@"https://api.instagram.com/oauth/access_token"
                 parameters:parameters
                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                       
+                       NSLog(@"RESPONSE %@", responseObject);
                        NSString *token = responseObject[@"access_token"];
-                       self.completionBlock(token);
-                       self.webView.delegate = nil;
+                       
+                       NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+                       [userDefaults setObject:token forKey:@"token"];
+                       [userDefaults synchronize];
+                       
+                       weakLoginVC.webView.delegate = nil;
+                       SANContainerViewController *containerVC = [weakLoginVC.storyboard instantiateViewControllerWithIdentifier:@"SANContainerViewController"];
+                       [weakLoginVC.navigationController pushViewController:containerVC animated:YES];
+                       //[weakLoginVC dismissViewControllerAnimated:YES completion:nil];
                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                      
-                       self.completionBlock(nil);
-                       self.webView.delegate = nil;
+            
+                       weakLoginVC.webView.delegate = nil;
+                     //  [weakLoginVC dismissViewControllerAnimated:YES completion:nil];
                    }];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        //[self dismissViewControllerAnimated:YES completion:nil];
         return NO;
     }
     return YES;

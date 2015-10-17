@@ -55,7 +55,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.dataSource modelCount] >= MIN_COUNT_CELLS) {
+    if ([self minCellsCount]) {
         if (indexPath.row == ([self.dataSource modelCount] - 1)){
             [self.dataSource loadTagsFromDataManager];
         }
@@ -64,6 +64,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
+}
+
+#pragma mark - Methods
+
+- (BOOL)minCellsCount {
+    return [self.dataSource modelCount] >= MIN_COUNT_CELLS;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
@@ -87,7 +93,7 @@
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationFade];
-            if ([self.dataSource modelCount] < MIN_COUNT_CELLS) {
+            if ([self minCellsCount]) {
                 [self.dataSource loadTagsFromDataManager];
             }
             break;

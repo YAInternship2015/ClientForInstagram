@@ -24,21 +24,7 @@
     NSString *str = [NSString stringWithFormat:@"%@", tag.imagePath];
     NSURL *url = [NSURL URLWithString:str];
     
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    
-    __weak SANCustomTableViewCell *weakCell = self;
-    self.avatarImageView.image = nil;
-    [self.avatarImageView
-     setImageWithURLRequest:request
-     placeholderImage:nil
-     success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-         weakCell.avatarImageView.image = image;
-#warning нужен ли здесь layoutSubviews
-         [weakCell layoutSubviews];
-     }
-     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-         
-     }];
+    [self.avatarImageView setImageWithURL:url];
     self.nameLabel.text = tag.text;
 }
 

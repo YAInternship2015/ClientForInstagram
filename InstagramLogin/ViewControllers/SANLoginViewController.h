@@ -8,18 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#warning эти урлы нужны в *.h?
-static NSString *const kAuthUrlString  = @"https://api.instagram.com/oauth/authorize/";
-static NSString *const kTokenUrlString = @"https://api.instagram.com/oauth/access_token/";
-static NSString *const kClientID       = @"1b7349d77eb1421f9529a4728d201639";
-static NSString *const kClientSecret   = @"d7663572df134539813ec5845fd146ea";
-static NSString *const kRedirectUri    = @"http://mydomain.com/NeverGonnaFindMe/";
-
-typedef void(^SANLoginCompletionBlock)(NSString *token);
-
 @interface SANLoginViewController : UIViewController
-
-- (instancetype)initWithAuthorizeUrlString:(NSString *)authUrlString
-                           completionBlock:(SANLoginCompletionBlock)completionBlock;
 
 @end

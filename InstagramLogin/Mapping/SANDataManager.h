@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class NSManagedObjectContext;
+
 @interface SANDataManager : NSObject
 
-#warning для типов блоков надо испольщовать typedef'ы
-- (void)mappingTagDictionary:(void(^)(NSArray *tagArray, NSString *nextPageUrl))completionBlock;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context;
+- (void)loadNextPage;
 
 @end

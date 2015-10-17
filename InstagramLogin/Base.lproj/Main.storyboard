@@ -14,17 +14,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="EaX-o3-HFW" kind="relationship" relationship="rootViewController" id="5za-CY-jDX"/>
+                        <segue destination="9xq-l5-E9U" kind="relationship" relationship="rootViewController" id="tIB-ka-fgZ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dnS-dc-EaM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-257" y="-168"/>
+            <point key="canvasLocation" x="-468" y="-499"/>
         </scene>
         <!--Michael Jackson-->
         <scene sceneID="RG9-N9-MHe">
             <objects>
-                <viewController id="EaX-o3-HFW" customClass="SANContainerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SANContainerViewController" id="EaX-o3-HFW" customClass="SANContainerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qMB-95-oW7"/>
                         <viewControllerLayoutGuide type="bottom" id="uQQ-ld-cXl"/>
@@ -44,7 +44,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xwA-6y-HBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="203" y="-168"/>
+            <point key="canvasLocation" x="266" y="-499"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="qTA-n8-cOb">
@@ -108,7 +108,44 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G8B-Gy-yZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="572" y="225"/>
+            <point key="canvasLocation" x="631" y="-148"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="gi4-TI-FX6">
+            <objects>
+                <viewController storyboardIdentifier="SANLoginViewController" id="9xq-l5-E9U" customClass="SANLoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jen-pi-AR1"/>
+                        <viewControllerLayoutGuide type="bottom" id="2RE-c9-NaC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zJD-83-pc3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b9e-8a-evI">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="9xq-l5-E9U" id="dSO-mk-R6r"/>
+                                </connections>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="b9e-8a-evI" firstAttribute="leading" secondItem="zJD-83-pc3" secondAttribute="leadingMargin" constant="-16" id="PM1-KS-M9I"/>
+                            <constraint firstItem="2RE-c9-NaC" firstAttribute="top" secondItem="b9e-8a-evI" secondAttribute="bottom" id="QPA-cg-9qa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="b9e-8a-evI" secondAttribute="trailing" constant="-16" id="rKL-KS-XqA"/>
+                            <constraint firstItem="b9e-8a-evI" firstAttribute="top" secondItem="zJD-83-pc3" secondAttribute="topMargin" id="x1C-M9-cRI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="dsv-gg-mHU"/>
+                    <connections>
+                        <outlet property="webView" destination="b9e-8a-evI" id="reg-Qf-fMf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dpk-eY-O8x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-85" y="-499"/>
         </scene>
         <!--Collection View Controller-->
         <scene sceneID="8qy-hl-ZcH">
@@ -159,7 +196,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="572" y="-560"/>
+            <point key="canvasLocation" x="631" y="-925"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
