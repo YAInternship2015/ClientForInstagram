@@ -8,7 +8,6 @@
 
 #import "SANDataSource.h"
 #import "SANDataManager.h"
-//#import "SANTagObject.h"
 
 #define FETCH_BATCH_SIZE 30
 
@@ -79,11 +78,10 @@
 #pragma mark - Methods
 
 - (void)loadTagsFromDataManager {
-    SANDataManager *dataManager = [[SANDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-    [dataManager loadNextPage];
-    
-#warning тут совсем неочевидное обращение за новыми данными. Должен быть метод вроде loadNextPage, внутри дата менеджера, который уже и хранит nextPageUrl. Потому что nextPageUrl по сути дата сорсу не нужен. Внутри дата менеджер вызывает метод загрузки данных у объекта-апи-клиента, который по факту отправляет запрос, возвращает загруженные данные в дата менеджер, который их затем маппит в базу и обновляет у себя nextPageUrl
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        SANDataManager *dataManager = [[SANDataManager alloc] initWithFetchResultController:self.fetchedResultsController managedObjectContext:self.managedObjectContext];
+        [dataManager loadNextPage];
+    });
 }
 
 - (NSInteger)modelCount {

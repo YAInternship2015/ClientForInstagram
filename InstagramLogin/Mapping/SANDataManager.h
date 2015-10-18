@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class NSFetchedResultsController;
 @class NSManagedObjectContext;
 
 @interface SANDataManager : NSObject
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context;
+- (instancetype)initWithFetchResultController:(NSFetchedResultsController *)fetchedResultsController
+                         managedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)loadNextPage;
 
 @end

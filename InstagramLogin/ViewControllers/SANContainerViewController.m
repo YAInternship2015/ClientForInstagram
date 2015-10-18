@@ -9,7 +9,6 @@
 #import "SANContainerViewController.h"
 #import "SANTableViewController.h"
 #import "SANCollectionViewController.h"
-//#import "SANLoginViewController.h"
 
 #define ANIMATION_DURATION_IN_SECONDS 0.25
 
@@ -36,8 +35,6 @@ static NSString * const SANCollectionControllerStoryboardID = @"SANCollectionVie
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //[self authorization];
-    
     self.activeVC = tableViewController;
     
     self.tableVC = [self.storyboard instantiateViewControllerWithIdentifier:SANTableControllerStoryboardID];
@@ -61,13 +58,7 @@ static NSString * const SANCollectionControllerStoryboardID = @"SANCollectionVie
 }
 
 #pragma mark - Methods
-/*
-- (void)authorization {
-    SANLoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SANLoginViewController"];
-    UIViewController *mainVC = [[[[UIApplication sharedApplication] windows] firstObject] rootViewController];
-    [mainVC presentViewController:loginViewController animated:YES completion:nil];
-}
-*/
+
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController {
     self.navigationController.navigationBar.translucent = NO;
 

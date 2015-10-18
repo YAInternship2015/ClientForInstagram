@@ -22,7 +22,7 @@
 static NSString *const kTags  = @"michaeljackson";
 static NSString *const kTagsCount  = @"30";
 
-- (instancetype)initWithUrl:(NSString *)url {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.manager = [AFHTTPRequestOperationManager manager];
@@ -36,7 +36,7 @@ static NSString *const kTagsCount  = @"30";
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults objectForKey:@"token"];
-    
+
     if (token) {
         NSDictionary* parameters = @{
                                      @"access_token" : token,
@@ -45,24 +45,33 @@ static NSString *const kTagsCount  = @"30";
         
         NSString *urlWithTag = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent", kTags];
         
-        if (!url) {
-            [self.manager GET:urlWithTag
-                   parameters:parameters
-                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          success(responseObject);
-                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          failure(error, [error code]);
-                      }];
+        if (!url) { 
+            [self sendRequestWithUrl:urlWithTag parameters:parameters success:^(NSDictionary *tags) {
+                success(tags);
+            } failure:^(NSError *error, NSInteger statusCode) {
+                failure(error, [error code]);
+            }];
         } else {
-            [self.manager GET:url
-                   parameters:nil
-                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          success(responseObject);
-                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          failure(error, [error code]);
-                      }];
+            [self sendRequestWithUrl:url parameters:nil success:^(NSDictionary *tags) {
+                success(tags);
+            } failure:^(NSError *error, NSInteger statusCode) {
+                failure(error, [error code]);
+            }];
         }
     }
+}
+
+- (void)sendRequestWithUrl:(NSString *)url
+                parameters:(NSDictionary *)parameters
+                   success:(SANTagsDictionaryBlock)success
+                   failure:(SANErrorBlock)failure {
+    [self.manager GET:url
+           parameters:parameters
+              success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                  success(responseObject);
+              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  failure(error, [error code]);
+              }];  
 }
 
 @end

@@ -16,25 +16,35 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
 
 @interface SANDataManager()
 
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end
 
 @implementation SANDataManager
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context {
+- (instancetype)initWithFetchResultController:(NSFetchedResultsController *)fetchedResultsController
+                         managedObjectContext:(NSManagedObjectContext *)managedObjectContext {
     self = [super init];
     if (self) {
-        self.managedObjectContext = context;
+        self.fetchedResultsController = fetchedResultsController;
+        self.managedObjectContext = managedObjectContext;
     }
     return self;
 }
 
 - (void)loadNextPage {
     [self mappingTagDictionary:^(NSArray *tagArray, NSString *nextPage) {
-        
+
+        for (int i = 0; i < [tagArray count]; i++) {
+            [self addModelWithImagePath:[tagArray[i] objectForKey:@"imagePath"]
+                                   name:[tagArray[i] objectForKey:@"text"]
+                                modelId:[tagArray[i] objectForKey:@"modelId"]];
+        }
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:nextPage forKey:@"nextPageUrl"];
+        [userDefaults synchronize];
     }];
-    
 }
 
 -(void)mappingTagDictionary:(SANMappingBlock)completionBlock {
@@ -44,13 +54,11 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *url = [userDefaults objectForKey:@"nextPageUrl"];
     
-    SANServerManager *manager = [[SANServerManager alloc] init];
+    SANServerManager *serverManager = [SANServerManager new];
     
-    __weak SANDataManager *weakManager = self;
-    
-    [manager loadTagsFromServerWithPageUrl:url
+    [serverManager loadTagsFromServerWithPageUrl:url
                             TagsDictionary:^(NSDictionary *tags) {
-                                NSLog(@"TAGS %@", tags);
+                               
          NSArray *dataArray = [tags objectForKey:@"data"];
          
          for (int i = 0; i < [dataArray count]; i++) {
@@ -75,22 +83,9 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
          
          NSDictionary *dict = [tags objectForKey:@"pagination"];
          NSString *nextPageUrl = [dict objectForKey:@"next_url"];
-         
-        for (int i = 0; i < [dataArray count]; i++) {
-            [weakManager addModelWithImagePath:[dataArray[i] objectForKey:@"imagePath"]
-                                          name:[dataArray[i] objectForKey:@"text"]
-                                       modelId:[dataArray[i] objectForKey:@"modelId"]];
-        }
-           NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-           [userDefaults setObject:nextPageUrl forKey:@"nextPageUrl"];
-           [userDefaults synchronize];
-
-    
                                 
-                                SANDataSource *d = [SANDataSource new];
-                                [d modelCount];
          completionBlock(tempArray, nextPageUrl);
-        
+
      } onFailure:^(NSError *error, NSInteger statusCode) {
          completionBlock(nil, nil);
      }];
@@ -121,18 +116,19 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
         model.date = [NSDate date];
         [model.managedObjectContext save:nil];
     } else {
-       
-        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"SANTagObject"
-                                                                          inManagedObjectContext:self.managedObjectContext];
+        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+        NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name]
+                                                                          inManagedObjectContext:context];
         
         [newManagedObject setValue:imagePath forKey:@"imagePath"];
         [newManagedObject setValue:name forKey:@"text"];
         [newManagedObject setValue:modelId forKey:@"modelId"];
         [newManagedObject setValue:[NSDate date] forKey:@"date"];
-        NSLog(@"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        
         // Save the context.
         NSError *error = nil;
-        if (![self.managedObjectContext save:&error]) {
+        if (![context save:&error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }

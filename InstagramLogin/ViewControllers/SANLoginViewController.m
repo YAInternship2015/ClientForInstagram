@@ -11,13 +11,15 @@
 #import "SANConstants.h"
 #import "SANContainerViewController.h"
 
-@interface SANLoginViewController ()
+@interface SANLoginViewController()
 
 @property (nonatomic, weak) IBOutlet UIWebView *webView;
 
 @end
 
 @implementation SANLoginViewController
+
+static NSString * const SANContainerVCStoryboardID = @"SANContainerViewController";
 
 #pragma mark - Lifecycle
 
@@ -61,7 +63,7 @@
         [manager POST:@"https://api.instagram.com/oauth/access_token"
                 parameters:parameters
                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                       NSLog(@"RESPONSE %@", responseObject);
+                   
                        NSString *token = responseObject[@"access_token"];
                        
                        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
@@ -69,15 +71,14 @@
                        [userDefaults synchronize];
                        
                        weakLoginVC.webView.delegate = nil;
-                       SANContainerViewController *containerVC = [weakLoginVC.storyboard instantiateViewControllerWithIdentifier:@"SANContainerViewController"];
-                       [weakLoginVC.navigationController pushViewController:containerVC animated:YES];
-                       //[weakLoginVC dismissViewControllerAnimated:YES completion:nil];
+                       SANContainerViewController *containerVC =
+                       [weakLoginVC.storyboard instantiateViewControllerWithIdentifier:SANContainerVCStoryboardID];
+                       
+                       [weakLoginVC.navigationController pushViewController:containerVC animated:NO];
+                      
                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
                        weakLoginVC.webView.delegate = nil;
-                     //  [weakLoginVC dismissViewControllerAnimated:YES completion:nil];
                    }];
-        //[self dismissViewControllerAnimated:YES completion:nil];
         return NO;
     }
     return YES;
