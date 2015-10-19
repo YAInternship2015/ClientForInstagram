@@ -47,12 +47,12 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning эти два условия нужно объединить в одном if через &&
-     if ([self minCellsCount]) {
-        if (indexPath.row == ([self.dataSource modelCount] - 1)) {
-            [self.dataSource loadTagsFromDataManager];
-        }
+- (void)collectionView:(UICollectionView *)collectionView
+       willDisplayCell:(UICollectionViewCell *)cell
+    forItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isDataSourceModelCountLessThenCellCount] && (indexPath.row == ([self.dataSource modelCount] - 1))) {
+        [self.dataSource loadTagsFromDataManager];
     }
 }
 
@@ -68,8 +68,7 @@
 
 #pragma mark - Methods
 
-#warning плохое название метода, неясно, что в нем проверяется
-- (BOOL)minCellsCount {
+- (BOOL)isDataSourceModelCountLessThenCellCount {
     return [self.dataSource modelCount] >= MIN_COUNT_CELLS;
 }
 
@@ -91,10 +90,8 @@
             break;
         case NSFetchedResultsChangeDelete:
             change[@(type)] = indexPath;
-            if ([self minCellsCount]) {
-                if (indexPath.row == ([self.dataSource modelCount] - 1)){
-                    [self.dataSource loadTagsFromDataManager];
-                }
+            if ([self isDataSourceModelCountLessThenCellCount] && (indexPath.row == ([self.dataSource modelCount] - 1))) {
+                [self.dataSource loadTagsFromDataManager];
             }
             break;
         case NSFetchedResultsChangeUpdate:

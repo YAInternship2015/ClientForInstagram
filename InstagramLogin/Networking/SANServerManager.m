@@ -38,41 +38,29 @@ static NSString *const kTagsCount  = @"30";
     NSString *token = [userDefaults objectForKey:@"token"];
 
     if (token) {
-        NSDictionary* parameters = @{
-                                     @"access_token" : token,
-                                     @"count" : kTagsCount
-                                     };
-        
         NSString *urlWithTag = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent", kTags];
         
-#warning в if и else явно дублируется код. Разница только в URL. В таком случае внутри if-else нужно понять, по какому урлу надо отправить запрос, и затем после if-else отправить запрос
-        if (!url) {
-            [self sendRequestWithUrl:urlWithTag parameters:parameters success:^(NSDictionary *tags) {
-                success(tags);
-            } failure:^(NSError *error, NSInteger statusCode) {
-                failure(error, [error code]);
-            }];
+        NSDictionary* parameters;
+        NSString *sendUrl;
+        
+        if (url) {
+            sendUrl = url;
         } else {
-            [self sendRequestWithUrl:url parameters:nil success:^(NSDictionary *tags) {
-                success(tags);
-            } failure:^(NSError *error, NSInteger statusCode) {
-                failure(error, [error code]);
-            }];
+            sendUrl = urlWithTag;
+            parameters = @{
+                           @"access_token" : token,
+                           @"count"        : kTagsCount
+                           };
         }
+        
+        [self.manager GET:sendUrl
+               parameters:parameters
+                  success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                      success(responseObject);
+                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                      failure(error, [error code]);
+                  }];
     }
-}
-
-- (void)sendRequestWithUrl:(NSString *)url
-                parameters:(NSDictionary *)parameters
-                   success:(SANTagsDictionaryBlock)success
-                   failure:(SANErrorBlock)failure {
-    [self.manager GET:url
-           parameters:parameters
-              success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                  success(responseObject);
-              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  failure(error, [error code]);
-              }];  
 }
 
 @end

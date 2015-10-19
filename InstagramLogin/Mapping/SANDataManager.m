@@ -34,7 +34,7 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
 }
 
 - (void)loadNextPage {
-    [self mappingTagDictionary:^(NSArray *tagArray, NSString *nextPage) {
+    [self sendRequestForTags:^(NSArray *tagArray, NSString *nextPage) {
 
         for (int i = 0; i < [tagArray count]; i++) {
             [self addModelWithImagePath:[tagArray[i] objectForKey:@"imagePath"]
@@ -47,8 +47,7 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
     }];
 }
 
-#warning плохое имя метода - здесь отправляется запрос на загрузку постов
--(void)mappingTagDictionary:(SANMappingBlock)completionBlock {
+-(void)sendRequestForTags:(SANMappingBlock)completionBlock {
     
     NSMutableArray *tempArray = [NSMutableArray array];
     

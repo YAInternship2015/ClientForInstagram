@@ -21,7 +21,7 @@
 
 - (void)setupWithTag:(SANTagObject *)tag {
     
-    NSString *str = [NSString stringWithFormat:@"%@", tag.imagePath];
+    NSString *str = tag.imagePath;
     NSURL *url = [NSURL URLWithString:str];
     
     [self.avatarImageView setImageWithURL:url];

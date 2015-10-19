@@ -20,8 +20,7 @@
 
 - (void)setupWithTag:(SANTagObject *)tag {
     
-#warning tag.imagePath - это уже NSString, зачем его как-то преобразовывать? Такое же замечание в табличной ячейке
-    NSString *str = [NSString stringWithFormat:@"%@", tag.imagePath];
+    NSString *str = tag.imagePath;
     NSURL *url = [NSURL URLWithString:str];
     
     [self.imageView setImageWithURL:url];

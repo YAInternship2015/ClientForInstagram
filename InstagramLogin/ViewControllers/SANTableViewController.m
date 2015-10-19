@@ -12,8 +12,6 @@
 
 #define MIN_COUNT_CELLS 30
 
-#warning в этом контроллере абсолютно те же замечания, что и в collectionview контроллере
-
 @interface SANTableViewController() <UITableViewDataSource,
                                       UITableViewDelegate,
                                       NSFetchedResultsControllerDelegate>
@@ -57,10 +55,8 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self minCellsCount]) {
-        if (indexPath.row == ([self.dataSource modelCount] - 1)){
-            [self.dataSource loadTagsFromDataManager];
-        }
+    if ([self isDataSourceModelCountLessThenCellCount] && (indexPath.row == ([self.dataSource modelCount] - 1))) {
+        [self.dataSource loadTagsFromDataManager];
     }
 }
 
@@ -70,7 +66,7 @@
 
 #pragma mark - Methods
 
-- (BOOL)minCellsCount {
+- (BOOL)isDataSourceModelCountLessThenCellCount {
     return [self.dataSource modelCount] >= MIN_COUNT_CELLS;
 }
 
@@ -95,7 +91,7 @@
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationFade];
-            if ([self minCellsCount]) {
+            if ([self isDataSourceModelCountLessThenCellCount]) {
                 [self.dataSource loadTagsFromDataManager];
             }
             break;
