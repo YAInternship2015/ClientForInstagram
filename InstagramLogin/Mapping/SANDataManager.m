@@ -47,6 +47,7 @@ typedef void(^SANMappingBlock)(NSArray *tagArray, NSString *nextPage);
     }];
 }
 
+#warning плохое имя метода - здесь отправляется запрос на загрузку постов
 -(void)mappingTagDictionary:(SANMappingBlock)completionBlock {
     
     NSMutableArray *tempArray = [NSMutableArray array];

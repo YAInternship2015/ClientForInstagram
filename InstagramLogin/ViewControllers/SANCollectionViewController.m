@@ -48,6 +48,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+#warning эти два условия нужно объединить в одном if через &&
      if ([self minCellsCount]) {
         if (indexPath.row == ([self.dataSource modelCount] - 1)) {
             [self.dataSource loadTagsFromDataManager];
@@ -67,6 +68,7 @@
 
 #pragma mark - Methods
 
+#warning плохое название метода, неясно, что в нем проверяется
 - (BOOL)minCellsCount {
     return [self.dataSource modelCount] >= MIN_COUNT_CELLS;
 }

@@ -78,7 +78,9 @@
 #pragma mark - Methods
 
 - (void)loadTagsFromDataManager {
+#warning зачем здесь переход в фон?
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+#warning внутри блока вместо self надо испольщовать weakSelf
         SANDataManager *dataManager = [[SANDataManager alloc] initWithFetchResultController:self.fetchedResultsController managedObjectContext:self.managedObjectContext];
         [dataManager loadNextPage];
     });

@@ -43,6 +43,7 @@
     SANDataSource *dataSource = [SANDataSource new];
     [dataSource saveContext];
     
+#warning если вы хотите каждый раз начинать все сначала, то надежнее данный код поместить в место старта приложения. Если приложение вдруг крешнется, то данный метод не вызовется
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:nil forKey:@"token"];
     [userDefaults setObject:nil forKey:@"nextPageUrl"];

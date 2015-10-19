@@ -45,7 +45,8 @@ static NSString *const kTagsCount  = @"30";
         
         NSString *urlWithTag = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent", kTags];
         
-        if (!url) { 
+#warning в if и else явно дублируется код. Разница только в URL. В таком случае внутри if-else нужно понять, по какому урлу надо отправить запрос, и затем после if-else отправить запрос
+        if (!url) {
             [self sendRequestWithUrl:urlWithTag parameters:parameters success:^(NSDictionary *tags) {
                 success(tags);
             } failure:^(NSError *error, NSInteger statusCode) {

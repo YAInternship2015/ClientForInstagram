@@ -12,6 +12,8 @@
 
 #define MIN_COUNT_CELLS 30
 
+#warning в этом контроллере абсолютно те же замечания, что и в collectionview контроллере
+
 @interface SANTableViewController() <UITableViewDataSource,
                                       UITableViewDelegate,
                                       NSFetchedResultsControllerDelegate>
